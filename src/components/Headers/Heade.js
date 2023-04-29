@@ -1,8 +1,10 @@
 import React from 'react'
 import './Header.css'
 import { TextField, ThemeProvider, createTheme, MenuItem } from '@mui/material'
+import categories from "../Data/category";
 
-const Header = () => {
+
+const Header = ({setCategory , category , word, setWord}) => {
 
   const darkTheme = createTheme({
     palette: {
@@ -13,28 +15,35 @@ const Header = () => {
     },
   });
 
-
+  const handleChange = (Language) => {
+    setCategory(Language);
+    setWord("");
+  }
   return (
     <div className='header'>
         <span className='title'>
-            Advanced Learners
+            {word ? word : "Advanced Learners"}
         </span>
         <div className='inputs'>
           <ThemeProvider theme={darkTheme}>
-          <TextField id="outlined-basic" label="Search Here..." variant="outlined" />
+          <TextField className='search' label="Search Here..." variant="outlined" 
+          value={word} onChange={(e)=> setWord(e.target.value)}/>
           <TextField
-          id="standard-select-currency"
+          className='select'
           select
-          label="Select"
-          defaultValue="EUR"
-          helperText="Please select your currency"
+          label="choose Language"
+          value={category}
+          onChange={(e)=>handleChange(e.target.value)}
           variant="standard"
         >
-          {currencies.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
+          {
+            categories.map((option) => (
+              <MenuItem key={option.label} value={option.value}>
+            {option.value}
+          </MenuItem>
+            ))
+          }
+        
         </TextField>
         </ThemeProvider>
         </div>
